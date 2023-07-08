@@ -1,6 +1,12 @@
 <template>
-  <div v-if="isPhrasesLoading===true">
-    <my-loading/>
+  <div v-if="isLoading===true">
+    <my-spiner/>
+  </div>
+  <div v-else-if="showOiVSE===true">
+    <my-canva>
+      <my-header class='text-5xl text-center'>Ой, ВСЕ!</my-header>
+      <my-header class='text-xl text-center'>Не работает твой сервер!</my-header>
+    </my-canva>
   </div>
   <div v-else>
     <my-canva>
@@ -10,15 +16,17 @@
     </my-canva>
     <my-canva>
       <trainer-list
-        v-if="showTrainerList===true"
+        v-if="showTrainerList===false"
         :phrases="phrases"
         @createAnswer="prepareAnswer"
         @pushBtn="send"
       ></trainer-list>
-      <div v-if="showOiVSE===true">
-        <my-header class="text-5xl text-center">Ой, ВСЕ!</my-header>
-        <my-header class="text-xl text-center">Не работает твой сервер!</my-header>
-      </div>
+
+      <trainer-results
+        v-if="showResults===true"
+        :testResults='testResults'
+      ></trainer-results>
+
     </my-canva>
   </div>
   </template>
@@ -28,9 +36,10 @@
 import { defineComponent } from "vue";
 
 import TrainerList from "../components/TrainerList.vue";
+import TrainerResults from '../components/TrainerResults.vue';
 
 export default defineComponent({
-  components: { TrainerList },
+  components: { TrainerResults,  TrainerList },
 
   mounted() {
     this.fetchPhrases();
@@ -39,9 +48,50 @@ export default defineComponent({
     return {
       phrases: [],
       answers: [],
-      isPhrasesLoading: false,
+      isLoading: false,
       showOiVSE: false,
       showTrainerList: false,
+      testResults: [
+        {
+          en: {
+            id: "5fe9971f-5e0b-4191-a68a-7cd42b9be222",
+            value: "hello"
+          },
+          ru: {
+            correctPhrases: [{
+              id: "d636767e-89fe-4c8a-8f85-019107488e1a",
+              value: "привет",
+            },{
+              id: "d636767e-89fe-4c8a-8f85-019107488e1b",
+              value: "дарова",
+            }],
+            checkResult: {
+              enteredValue: "приве",
+              success: false,
+              tries: 1,
+              failures: 1
+            }
+          }
+        },{
+          en: {
+            id: "d636767e-89fe-4c8a-8f85-019107488e1a",
+            value: "Olga"
+          },
+          ru: {
+            correctPhrases: [{
+              id: "d636767e-89fe-4c8a-8f85-019107488e1a",
+              value: "Ольга",
+            }],
+            checkResult: {
+              enteredValue: "Ольга",
+              success: true,
+              tries: 1,
+              failures: 0
+            }
+          }
+        }
+      ],
+      showResults: true
     };
   },
 
@@ -49,6 +99,7 @@ export default defineComponent({
     send() {
       console.log("Отправляю это на проверку: ", this.answers);
       this.postAnswers();
+      this.showTrainerList=false
     },
 
     prepareAnswer(newAnswer, index) {
@@ -57,7 +108,7 @@ export default defineComponent({
 
     async fetchPhrases() {
       try {
-        this.isPhrasesLoading = true;
+        this.isLoading = true;
         const query = "http://localhost:8081/v1/phrases";
         const response = await fetch(query).then((response) => response.json());
         console.log("Пришло с сервера: ", response);
@@ -73,7 +124,7 @@ export default defineComponent({
           }
         };
         this.answers = Array(qtyPhrases).fill(answerTemplate);
-        this.isPhrasesLoading = false
+        this.isLoading = false
         this.showTrainerList = true
       } catch (e) {
         this.showTrainerList = false
@@ -83,6 +134,7 @@ export default defineComponent({
     },
 
     async postAnswers() {
+      this.isLoading = true
       console.log(JSON.stringify(this.answers));
       try {
         const response = await fetch("http://192.168.1.228:3000/v1/check", {
@@ -93,10 +145,14 @@ export default defineComponent({
           }
         });
         const json = await response.json();
-        console.log("Успех:", json);
+        this.testResults = json
+        console.log(this.testResults);
+        this.isLoading = false
+        this.showResults = true
       } catch (error) {
         console.error("Ошибка:", error);
         this.showOiVSE = true;
+        this.isLoading = false
       }
     }
   }
