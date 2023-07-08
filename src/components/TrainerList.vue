@@ -6,7 +6,7 @@
     border border-grape_mist bg-whiteout font-sans leading-6 px-3 border-2
     placeholder:text-dusky_grape p-1 focus:border-2 border-grape_mist outline-none"
            v-model.trim="inputValue[index]"
-           @blur="addAnswer(phrase.en.id, phrase.en.value,index)"/>
+           @input="addAnswer(phrase.en.id, phrase.en.value, index)"/>
     </div>
     <div class="flex flex-row justify-end m-4">
       <my-button @click="send">Проверить</my-button>
@@ -20,24 +20,26 @@
 
 export default {
   name: 'TrainerList',
-
   props: {
     phrases: {
       type: Array,
       required: true
     },
   },
+
   data() {
     return {
       inputValue: [],
       answers: [],
     }
   },
+
   methods: {
     send () {
       this.$emit('pushBtn')
     },
-    addAnswer (phraseId, phraseValue,index) {
+
+    addAnswer (phraseId, phraseValue, index) {
       const newAnswer = {
         en: {
           id: phraseId,
@@ -48,9 +50,8 @@ export default {
         }
       }
       console.log(newAnswer);
-       this.$emit('createAnswer', newAnswer)
-    }
-
+       this.$emit('createAnswer', newAnswer, index)
+    },
   }
 };
 
