@@ -1,7 +1,8 @@
 <template>
+  <my-canva>
   <div v-if='phrases.length > 0'>
-    <div class='flex flex-row justify-between gap-4 mx-4' v-for='(phrase, index) in phrases' :key='phrase.en.id'>
-      <div class='flex flex-col justify-center font-bold text-head_over_heels text-l'> {{ phrase.en.value }}</div>
+    <div class='flex flex-row justify-between gap-4 mx-4 text-sm uppercase' v-for='(phrase, index) in phrases' :key='phrase.en.id'>
+      <div class='flex flex-col justify-center font-bold text-head_over_heels'> {{ phrase.en.value }}</div>
       <input type='text' class='w-2/3 m-1 py-1.5 text-base text-head_over_heels
     border border-grape_mist bg-whiteout font-sans leading-6 px-3 border-2
     placeholder:text-dusky_grape p-1 focus:border-2 border-grape_mist outline-none'
@@ -15,8 +16,10 @@
   <div v-else>
     <my-header>Похоже, в словаре ничего нет, добавь значения в словарь на странице "Добавить перевод"</my-header>
   </div>
+  </my-canva>
 </template>
 <script>
+
 
 export default {
   name: 'TrainerList',
@@ -36,7 +39,7 @@ export default {
 
   methods: {
     send() {
-      this.$emit('pushBtn');
+      this.$emit('send');
     },
 
     addAnswer(phraseId, phraseValue, index) {

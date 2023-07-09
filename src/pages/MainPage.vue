@@ -4,7 +4,7 @@
   </div>
   <div v-else-if="showOiVSE===true">
     <my-canva>
-      <my-header class='text-5xl text-center'>Ой, ВСЕ!</my-header>
+      <h1 class='font-bold text-head_over_heels text-5xl text-center'>Ой, ВСЕ!</h1>
       <my-header class='text-xl text-center'>Не работает твой сервер!</my-header>
     </my-canva>
   </div>
@@ -14,20 +14,18 @@
         <my-header>Проверь свои знания</my-header>
       </div>
     </my-canva>
-    <my-canva>
       <trainer-list
-        v-if="showTrainerList===false"
+        v-if="showTrainerList===true"
         :phrases="phrases"
         @createAnswer="prepareAnswer"
-        @pushBtn="send"
+        @send="send"
       ></trainer-list>
 
       <trainer-results
         v-if="showResults===true"
         :testResults='testResults'
+        @repeatTest="repeatTest"
       ></trainer-results>
-
-    </my-canva>
   </div>
   </template>
 
@@ -51,51 +49,17 @@ export default defineComponent({
       isLoading: false,
       showOiVSE: false,
       showTrainerList: false,
-      testResults: [
-        {
-          en: {
-            id: "5fe9971f-5e0b-4191-a68a-7cd42b9be222",
-            value: "hello"
-          },
-          ru: {
-            correctPhrases: [{
-              id: "d636767e-89fe-4c8a-8f85-019107488e1a",
-              value: "привет",
-            },{
-              id: "d636767e-89fe-4c8a-8f85-019107488e1b",
-              value: "дарова",
-            }],
-            checkResult: {
-              enteredValue: "приве",
-              success: false,
-              tries: 1,
-              failures: 1
-            }
-          }
-        },{
-          en: {
-            id: "d636767e-89fe-4c8a-8f85-019107488e1a",
-            value: "Olga"
-          },
-          ru: {
-            correctPhrases: [{
-              id: "d636767e-89fe-4c8a-8f85-019107488e1a",
-              value: "Ольга",
-            }],
-            checkResult: {
-              enteredValue: "Ольга",
-              success: true,
-              tries: 1,
-              failures: 0
-            }
-          }
-        }
-      ],
-      showResults: true
+      testResults: [],
+      showResults: false
     };
   },
 
   methods: {
+    repeatTest () {
+      this.showResults = false;
+      this.answers = []
+      this.fetchPhrases();
+    },
     send() {
       console.log("Отправляю это на проверку: ", this.answers);
       this.postAnswers();
@@ -109,30 +73,32 @@ export default defineComponent({
     async fetchPhrases() {
       try {
         this.isLoading = true;
-        const query = "http://localhost:8081/v1/phrases";
+        const query = "http://192.168.1.228:3000/v1/phrases";
         const response = await fetch(query).then((response) => response.json());
         console.log("Пришло с сервера: ", response);
         this.phrases = response;
-        const qtyPhrases = this.phrases.length;
-        const answerTemplate = {
-          en: {
-            id: '',
-            value: '',
-          },
-          ru: {
-            value: ''
-          }
-        };
-        this.answers = Array(qtyPhrases).fill(answerTemplate);
+        for (let i in this.phrases) {
+          const newAnswerTemplate = {
+            en: {
+              id: this.phrases[i].en.id,
+              value: '',
+            },
+            ru: {
+              value: ''
+            }
+          };
+          this.answers.push(newAnswerTemplate)
+        }
+        console.log("Template ответов ->", this.answers);
         this.isLoading = false
         this.showTrainerList = true
       } catch (e) {
         this.showTrainerList = false
         this.showOiVSE = true;
+        this.isLoading = false
         console.log(e);
       }
     },
-
     async postAnswers() {
       this.isLoading = true
       console.log(JSON.stringify(this.answers));
@@ -145,8 +111,8 @@ export default defineComponent({
           }
         });
         const json = await response.json();
+        console.log("Ответ на postAnswers -> ", json);
         this.testResults = json
-        console.log(this.testResults);
         this.isLoading = false
         this.showResults = true
       } catch (error) {
