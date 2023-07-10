@@ -73,7 +73,7 @@ export default defineComponent({
     async fetchPhrases() {
       try {
         this.isLoading = true;
-        const query = "http://192.168.1.228:3000/v1/phrases";
+        const query = "http://45.95.235.82:3000/v1/phrases";
         const response = await fetch(query).then((response) => response.json());
         console.log("Пришло с сервера: ", response);
         this.phrases = response;
@@ -103,7 +103,7 @@ export default defineComponent({
       this.isLoading = true
       console.log(JSON.stringify(this.answers));
       try {
-        const response = await fetch("http://192.168.1.228:3000/v1/check", {
+        const response = await fetch("http://45.95.235.82:3000/v1/check", {
           method: "POST",
           body: JSON.stringify(this.answers),
           headers: {

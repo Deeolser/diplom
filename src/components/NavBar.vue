@@ -7,8 +7,8 @@
     </div>
 
     <div class="mr-3 flex flex-row items-center justify-start gap-2">
-      <my-button @click="$router.push('/couples')"> Добавить перевод </my-button>
-      <my-button @click="$router.push('/about')"> О сайте </my-button>
+      <my-button @click="$router.push('/adding')"> Добавить перевод </my-button>
+      <my-button @click="$router.push('/')"> Тренироваться </my-button>
     </div>
   </div>
   <div class="h-[4px] bg-head_over_heels shadow"></div>
