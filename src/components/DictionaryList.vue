@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import DictionaryItem from './DictionaryItem.vue';
+import DictionaryItem from './TranslateItem.vue';
 
 export default {
   name: 'DictionaryList',

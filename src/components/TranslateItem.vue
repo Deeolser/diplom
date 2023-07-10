@@ -1,7 +1,7 @@
 <template>
   <div class="my-4 flex flex-row justify-between rounded-md bg-gray-100">
     <div class="p-1 pl-2 align-middle">
-      {{ couple.title }} - {{ couple.body }}
+{{ pairs.pairs }}
     </div>
     <div>
     </div>
@@ -10,9 +10,9 @@
 
 <script>
 export default {
-  name: 'DictionaryItem',
+  name: 'TranslateItem',
   props: {
-    couple: {
+    pairs: {
       type: Object,
       required: true,
     },

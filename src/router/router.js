@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import MainPage from '../pages/MainPage.vue';
-import AboutPage from '../pages/AboutPage.vue';
 import AddingPage from '../pages/AddingPage.vue';
+import TranslatePage from '../pages/TranslatePage.vue';
 
 const routes = [
   {
@@ -13,8 +13,8 @@ const routes = [
     component: AddingPage,
   },
   {
-    path: '/about',
-    component: AboutPage,
+    path: '/phrases',
+    component: TranslatePage,
   },
 ];
 const router = createRouter({

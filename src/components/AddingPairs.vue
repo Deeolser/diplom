@@ -6,24 +6,29 @@
   </my-canva>
   <my-canva class='flex flex-col justify-center'>
     <div>
-      <form class='flex flex-row justify-between gap-4' @submit.prevent>
-        <div>
-          <label class='font-bold text-head_over_heels text-sm uppercase mr-2 '>EN</label>
-          <my-input
-            v-model='pair.phrase'
-            placeholder='Введи фразу'
-            type='text'
-          />
+      <form class='flex flex-row justify-between' @submit.prevent>
+        <div class='flex flex-row w-10/12 justify-between gap-4'>
+          <div class='w-1/2'>
+            <label class='font-bold text-head_over_heels text-sm uppercase mr-2 '>EN</label>
+            <my-input
+              class='w-10/12'
+              v-model='pair.phrase'
+              placeholder='Введи фразу'
+              type='text'
+            />
+          </div>
+          <div class='w-1/2'>
+            <label class='font-bold text-head_over_heels text-sm uppercase mr-2'>RU</label>
+            <my-input
+              class='w-10/12'
+              v-model='pair.translate'
+              placeholder='Введи перевод'
+              type='text'
+            />
+          </div>
         </div>
-        <div>
-          <label class='font-bold text-head_over_heels text-sm uppercase mr-2 '>RU</label>
-          <my-input
-            v-model='pair.translate'
-            placeholder='Введи перевод'
-            type='text'
-          />
-        </div>
-        <div class='flex flex-col justify-center '>
+
+        <div class='flex flex-col justify-center'>
           <my-button @click='addPair'>Добавить</my-button>
         </div>
 
