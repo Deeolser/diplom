@@ -5,7 +5,6 @@
       <img class="" src="/public/RiGraduationCapFill.svg" alt="logo">
       <h1 class="font-bold text-head_over_heels uppercase">Dictionary</h1>
     </div>
-
     <div class="mr-3 flex flex-row items-center justify-start gap-2">
       <my-button @click="$router.push('/')"> Тренироваться </my-button>
       <my-button @click="$router.push('/adding')"> Добавить перевод </my-button>
@@ -16,11 +15,9 @@
 </template>
 
 <script>
-import DictionaryForm from "./DictionaryForm.vue";
 
 export default {
   name: 'NavBar',
-  components: { DictionaryForm }
 };
 </script>
 

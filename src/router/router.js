@@ -16,9 +16,14 @@ const routes = [
     path: '/phrases',
     component: TranslatePage,
   },
+  {
+    path: '/phrases/page:currentPage',
+    component: TranslatePage,
+  },
 ];
 const router = createRouter({
   routes,
   history: createWebHashHistory()
+
 });
 export default router;

@@ -1,8 +1,8 @@
 <template>
-  <div v-if="isLoading===true">
+  <div v-if="isLoading">
     <my-spiner/>
   </div>
-  <div v-else-if="showOiVSE===true">
+  <div v-else-if="showOiVSE">
     <my-canva>
       <h1 class='font-bold text-head_over_heels text-5xl text-center'>Ой, ВСЕ!</h1>
       <my-header class='text-xl text-center'>Не работает твой сервер!</my-header>
