@@ -31,25 +31,35 @@
         <div class='flex flex-col justify-center'>
           <my-button @click='addPair'>Добавить</my-button>
         </div>
-
       </form>
     </div>
+  </my-container>
+  <my-container>
+    <MyHeader>
+      Недавно добавленные
+    </MyHeader>
+  </my-container>
+  <my-container>
+    {{lastPairs}}
   </my-container>
 </template>
 
 <script>
 
-import MyContainer from './UI/MyContainer.vue';
+import { saveToLocalStorage } from '../utils/storageUtils.js';
 
 export default {
   name: 'AddingPairs',
-  components: { MyContainer },
+  mounted() {
+    this.lastPairs = JSON.parse(localStorage.getItem('LAST_ADDED'))
+  },
   data() {
     return {
       pair: {
         phrase: '',
         translate: '',
       },
+      lastPairs: []
     };
   },
   methods: {
@@ -62,7 +72,6 @@ export default {
           value: this.pair.translate,
         },
       }];
-      console.log('Подготовлено на отправку на сервер -> ', JSON.stringify(newPair));
       this.postPair(newPair);
     },
 
@@ -75,13 +84,26 @@ export default {
             'Content-Type': 'application/json; charset=utf-8',
           },
         });
-        const json = await response.json();
-        console.log('Ответ на postPair -> ', json);
+       const json = await response.json();
+        console.log('Последняя добавленная пара', json[0]);
+        const lastAddedPair = json[0]
+        this.addLastPair (lastAddedPair)
         this.pair.phrase = '';
         this.pair.translate = '';
       } catch (e) {
         console.log(e);
       }
+    },
+
+    addLastPair (lastAddedPair) {
+      this.lastPairs.push(lastAddedPair)
+      console.log('Массив последних добавленных', this.lastPairs);
+      saveToLocalStorage('LAST_ADDED', this.lastPairs)
+    },
+
+    saveToLocalStorage (key, v) {
+      console.log('> saveToLocalStorage =', v);
+      localStorage.setItem(key, JSON.stringify(v));
     },
   },
 };

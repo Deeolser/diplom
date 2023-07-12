@@ -5,8 +5,8 @@ export const useGetPairsStore = defineStore("getPairsStore", {
     loadPairs: false,
     pairs: [],
     currentPage: 0,
-    totalPages: 0
-
+    totalPages: 0,
+    showOiVSE: false
   }),
   actions: {
 
@@ -24,6 +24,8 @@ export const useGetPairsStore = defineStore("getPairsStore", {
         this.loadPairs = false
       } catch (e) {
         console.log(e);
+        this.showOiVSE = true
+        this.loadPairs = false
       }
     },
 

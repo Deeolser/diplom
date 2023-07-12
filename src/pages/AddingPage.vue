@@ -5,6 +5,7 @@
 <script>
 import AddingPairs from '../components/AddingPairs.vue';
 
+
 export default {
   name: 'AddingPage',
   components: { AddingPairs },

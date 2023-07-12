@@ -1,43 +1,32 @@
 <template>
-  <div v-if="isLoading">
-    <my-spiner/>
-  </div>
-  <div v-else-if="showOiVSE">
+  <my-spinner v-if='showSpinner'/>
+  <oi-vse v-if='showOiVSE' />
+  <div v-if='phrases.length > 0 && !showOiVSE'>
     <my-container>
-      <h1 class='font-bold text-head_over_heels text-5xl text-center'>Ой, ВСЕ!</h1>
-      <my-header class='text-xl text-center'>Не работает твой сервер!</my-header>
-    </my-container>
-  </div>
-  <div v-else>
-    <my-container>
-      <div class="flex flex-col">
+      <div class='flex flex-col'>
         <my-header>Проверь свои знания</my-header>
       </div>
     </my-container>
-      <trainer-list
-        v-if="showTrainerList===true"
-        :phrases="phrases"
-        @createAnswer="prepareAnswer"
-        @send="send"
-      ></trainer-list>
-
-      <trainer-results
-        v-if="showResults===true"
-        :testResults='testResults'
-        @repeatTest="repeatTest"
-      ></trainer-results>
+    <trainer-list
+      v-if='showTrainerList'
+      :phrases='phrases'
+      @createAnswer='prepareAnswer'
+      @send='send' />
+    <trainer-results
+      v-if='showResults'
+      :testResults='testResults'
+      @repeatTest='repeatTest' />
   </div>
-  </template>
+</template>
 
 <script>
-
-import { defineComponent } from "vue";
-
-import TrainerList from "../components/TrainerList.vue";
+import { defineComponent } from 'vue';
+import TrainerList from '../components/TrainerList.vue';
 import TrainerResults from '../components/TrainerResults.vue';
+import OiVse from '../components/OiVse.vue';
 
 export default defineComponent({
-  components: { TrainerResults,  TrainerList },
+  components: { OiVse, TrainerResults, TrainerList },
 
   mounted() {
     this.fetchPhrases();
@@ -46,36 +35,35 @@ export default defineComponent({
     return {
       phrases: [],
       answers: [],
-      isLoading: false,
+      showSpinner: false,
       showOiVSE: false,
       showTrainerList: false,
       testResults: [],
-      showResults: false
+      showResults: false,
     };
   },
 
   methods: {
-    repeatTest () {
+    repeatTest() {
       this.showResults = false;
-      this.answers = []
+      this.answers = [];
       this.fetchPhrases();
     },
+
     send() {
-      console.log("Отправляю это на проверку: ", this.answers);
       this.postAnswers();
-      this.showTrainerList=false
+      this.showTrainerList = false;
     },
 
     prepareAnswer(newAnswer, index) {
-      this.answers.splice(index,1, newAnswer)
+      this.answers.splice(index, 1, newAnswer);
     },
 
     async fetchPhrases() {
       try {
-        this.isLoading = true;
-        const url = "http://45.95.235.82:3000/v1/phrases";
+        this.showSpinner = true;
+        const url = 'http://45.95.235.82:3000/v1/phrases';
         const response = await fetch(url).then((response) => response.json());
-        console.log("Пришло с сервера: ", response);
         this.phrases = response;
         for (let i in this.phrases) {
           const newAnswerTemplate = {
@@ -84,44 +72,40 @@ export default defineComponent({
               value: '',
             },
             ru: {
-              value: ''
-            }
+              value: '',
+            },
           };
-          this.answers.push(newAnswerTemplate)
+          this.answers.push(newAnswerTemplate);
         }
-        console.log("Template ответов ->", this.answers);
-        this.isLoading = false
-        this.showTrainerList = true
+        this.showSpinner = false;
+        this.showTrainerList = true;
       } catch (e) {
-        this.showTrainerList = false
+        this.showTrainerList = false;
         this.showOiVSE = true;
-        this.isLoading = false
+        this.showSpinner = false;
         console.log(e);
       }
     },
     async postAnswers() {
-      this.isLoading = true
-      console.log(JSON.stringify(this.answers));
+      this.showSpinner = true;
       try {
-        const response = await fetch("http://45.95.235.82:3000/v1/check", {
-          method: "POST",
+        const response = await fetch('http://45.95.235.82:3000/v1/check', {
+          method: 'POST',
           body: JSON.stringify(this.answers),
           headers: {
-            "Content-Type": "application/json; charset=utf-8"
-          }
+            'Content-Type': 'application/json; charset=utf-8',
+          },
         });
-        const json = await response.json();
-        console.log("Ответ на postAnswers -> ", json);
-        this.testResults = json
-        this.isLoading = false
-        this.showResults = true
+        this.testResults = await response.json();
+        this.showSpinner = false;
+        this.showResults = true;
       } catch (error) {
-        console.error("Ошибка:", error);
+        console.error('Ошибка:', error);
         this.showOiVSE = true;
-        this.isLoading = false
+        this.showSpinner = false;
       }
-    }
-  }
+    },
+  },
 });
 </script>
 

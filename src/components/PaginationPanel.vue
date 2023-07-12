@@ -19,11 +19,16 @@
 import { ref } from 'vue';
 import { useGetPairsStore } from '../store/GetPairsStore.js';
 
-const pageSize = ref(20);
+// const pageSize = ref(20);
 const getPairs = useGetPairsStore();
 </script>
 <script>
 export default {
   name: 'PaginationPanel',
+  props:{
+    pageSize: {
+      type: Number
+    }
+  }
 };
 </script>

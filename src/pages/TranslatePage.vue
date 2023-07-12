@@ -1,6 +1,7 @@
 <template>
   <div class='flex flex-col'>
-  <my-spinner v-if='getPairs.loadPairs'></my-spinner>
+  <my-spinner v-if='getPairs.loadPairs'/>
+    <oi-vse v-if='getPairs.showOiVSE'></oi-vse>
   <my-container>
     <my-header>Все переводы</my-header>
     <div class='flex flex-row gap-2 px-1 font-bold text-head_over_heels text-base'><p>Выводить по: </p>
@@ -26,7 +27,9 @@
       </div>
     </div>
   </my-container>
-  <pagination-panel v-if='!getPairs.loadPairs'/>
+  <pagination-panel
+    v-if='!getPairs.loadPairs'
+    :page-size='pageSize'/>
   </div>
 </template>
 
@@ -34,6 +37,7 @@
 import { ref } from 'vue';
 import { useGetPairsStore } from '../store/GetPairsStore.js';
 import PaginationPanel from '../components/PaginationPanel.vue';
+import OiVse from '../components/OiVse.vue';
 
 const pageSize = ref(20);
 const getPairs = useGetPairsStore();

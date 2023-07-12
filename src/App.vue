@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-2 mx-auto bg-errigal_white">
+  <div class="w-full h-screen px-2 bg-errigal_white">
     <nav-bar />
     <router-view />
   </div>
