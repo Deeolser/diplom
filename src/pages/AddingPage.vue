@@ -1,5 +1,5 @@
 <template>
-<adding-pairs></adding-pairs>
+<adding-pairs/>
 </template>
 
 <script>

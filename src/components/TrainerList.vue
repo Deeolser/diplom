@@ -1,5 +1,5 @@
 <template>
-  <my-canva>
+  <my-container>
   <div v-if='phrases.length > 0'>
     <div class='flex flex-row justify-between gap-4 mx-4 text-sm uppercase' v-for='(phrase, index) in phrases' :key='phrase.en.id'>
       <div class='flex flex-col justify-center font-bold text-head_over_heels'> {{ phrase.en.value }}</div>
@@ -17,9 +17,11 @@
   <div v-else>
     <my-header>Похоже, в словаре ничего нет, добавь значения в словарь на странице "Добавить перевод"</my-header>
   </div>
-  </my-canva>
+  </my-container>
 </template>
 <script>
+
+
 
 
 export default {

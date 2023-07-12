@@ -11,6 +11,7 @@ export default {
         current: 'currentColor',
         whiteout: '#fbfbfb',
         errigal_white: '#f1f1f3',
+        dark_errigal_white: '#dddddf',
         head_over_heels: '#615970',
         dusky_grape: '#888293',
         bauhaus: '#404040',

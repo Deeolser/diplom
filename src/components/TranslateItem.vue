@@ -1,22 +1,16 @@
 <template>
-  <div class="my-4 flex flex-row justify-between rounded-md bg-gray-100">
-    <div class="p-1 pl-2 align-middle">
-{{ pairs.pairs }}
-    </div>
-    <div>
-    </div>
-  </div>
+  <p>{{ pair.en.value }} - {{ pair.ru.value }}</p>
 </template>
 
+<script setup>
+
+import { useGetPairsStore } from '../store/GetPairsStore.js';
+
+const getPairs = useGetPairsStore();
+</script>
 <script>
 export default {
   name: 'TranslateItem',
-  props: {
-    pairs: {
-      type: Object,
-      required: true,
-    },
-  },
 };
 </script>
 

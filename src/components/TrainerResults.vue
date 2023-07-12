@@ -1,6 +1,6 @@
 <template>
 <div>
-  <my-canva>
+  <my-container>
     <div>
       <table class='flex flex-col justify-start gap-4 font-bold
   text-head_over_heels text-sm uppercase'>
@@ -23,7 +23,7 @@
     <div class='flex flex-row justify-end m-4'>
       <my-button @click='repeatTest'>Еще раз</my-button>
     </div>
-  </my-canva>
+  </my-container>
 
 </div>
 
@@ -32,8 +32,11 @@
 </template>
 
 <script>
+import MyContainer from './UI/MyContainer.vue';
+
 export default {
   name: 'TrainerResults',
+  components: { MyContainer },
 
   props: {
     testResults: {

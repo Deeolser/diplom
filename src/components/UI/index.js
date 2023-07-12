@@ -1,9 +1,9 @@
 import MyButton from './MyButton.vue';
 import MyInput from './MyInput.vue';
-import MyCanva from "./MyCanva.vue";
+import MyContainer from "./MyContainer.vue";
 import MyHeader from "./MyHeader.vue";
-import MySpiner from './MySpiner.vue';
+import MySpinner from './MySpinner.vue';
 
 
 
-export default [MyButton, MyInput, MyCanva, MyHeader, MySpiner,];
+export default [MyButton, MyInput, MyContainer, MyHeader, MySpinner,];

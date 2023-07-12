@@ -1,10 +1,10 @@
 <template>
-  <my-canva>
+  <my-container>
     <MyHeader>
       Добавление перевода
     </MyHeader>
-  </my-canva>
-  <my-canva class='flex flex-col justify-center'>
+  </my-container>
+  <my-container class='flex flex-col justify-center'>
     <div>
       <form class='flex flex-row justify-between' @submit.prevent>
         <div class='flex flex-row w-10/12 justify-between gap-4'>
@@ -34,13 +34,16 @@
 
       </form>
     </div>
-  </my-canva>
+  </my-container>
 </template>
 
 <script>
 
+import MyContainer from './UI/MyContainer.vue';
+
 export default {
   name: 'AddingPairs',
+  components: { MyContainer },
   data() {
     return {
       pair: {

@@ -3,17 +3,17 @@
     <my-spiner/>
   </div>
   <div v-else-if="showOiVSE">
-    <my-canva>
+    <my-container>
       <h1 class='font-bold text-head_over_heels text-5xl text-center'>Ой, ВСЕ!</h1>
       <my-header class='text-xl text-center'>Не работает твой сервер!</my-header>
-    </my-canva>
+    </my-container>
   </div>
   <div v-else>
-    <my-canva>
+    <my-container>
       <div class="flex flex-col">
         <my-header>Проверь свои знания</my-header>
       </div>
-    </my-canva>
+    </my-container>
       <trainer-list
         v-if="showTrainerList===true"
         :phrases="phrases"
@@ -73,8 +73,8 @@ export default defineComponent({
     async fetchPhrases() {
       try {
         this.isLoading = true;
-        const query = "http://45.95.235.82:3000/v1/phrases";
-        const response = await fetch(query).then((response) => response.json());
+        const url = "http://45.95.235.82:3000/v1/phrases";
+        const response = await fetch(url).then((response) => response.json());
         console.log("Пришло с сервера: ", response);
         this.phrases = response;
         for (let i in this.phrases) {
