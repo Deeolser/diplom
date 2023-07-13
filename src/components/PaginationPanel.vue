@@ -27,7 +27,8 @@ export default {
   name: 'PaginationPanel',
   props:{
     pageSize: {
-      type: Number
+      type: Number,
+      required: true
     }
   }
 };

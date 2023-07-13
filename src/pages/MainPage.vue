@@ -103,6 +103,7 @@ export default defineComponent({
         console.error('Ошибка:', error);
         this.showOiVSE = true;
         this.showSpinner = false;
+        this.showTrainerList = false;
       }
     },
   },

@@ -21,12 +21,8 @@
 </template>
 <script>
 
-
-import MyContainer from './UI/MyContainer.vue';
-
 export default {
   name: 'TrainerList',
-  components: { MyContainer },
   props: {
     phrases: {
       type: Array,

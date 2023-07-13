@@ -32,11 +32,9 @@
 </template>
 
 <script>
-import MyContainer from './UI/MyContainer.vue';
 
 export default {
   name: 'TrainerResults',
-  components: { MyContainer },
 
   props: {
     testResults: {
