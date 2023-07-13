@@ -1,5 +1,5 @@
 <template>
-  <div class='flex flex-row justify-center'>
+  <div class='flex flex-row justify-center mt-2'>
     <div class='flex flex-row'>
       <my-button @click='getPairs.getPairsFromAPI(pageSize, 0)'>В начало</my-button>
       <my-button v-if='getPairs.currentPage>0'
@@ -16,10 +16,8 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
 import { useGetPairsStore } from '../store/GetPairsStore.js';
 
-// const pageSize = ref(20);
 const getPairs = useGetPairsStore();
 </script>
 <script>
